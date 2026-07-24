@@ -34,7 +34,7 @@
     .form-control, .form-select { font-size: 16px; padding: 15px; border-radius: 12px; border: 1px solid #ccc; background-color: #fafafa; transition: all 0.3s ease; }
     .form-control:focus, .form-select:focus { border-color: var(--primary-red); box-shadow: 0 0 0 3px rgba(168, 30, 35, 0.15); background-color: white; }
 
-    /* ปรับแต่งช่องกรอกและข้อความแจ้งเตือนเมื่อ Error ให้สวยงามพอดี */
+    /* ปรับแต่งช่องกรอกและข้อความแจ้งเตือนเมื่อ Error */
     .input-error { border-color: #dc3545 !important; background-color: #fff8f8 !important; box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15) !important; }
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
     .error-box { display: none; font-size: 14px; font-weight: 500; color: #842029; background-color: #f8d7da; border: 1px solid #f5c2c7; border-radius: 8px; padding: 10px 15px; margin-top: 10px; animation: fadeInDown 0.3s ease-out; }
@@ -48,6 +48,10 @@
     .receipt-body { padding: 30px; position: relative; }
     .receipt-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 16px; border-bottom: 1px dashed #eee; padding-bottom: 10px; }
     .btn-download { background: #4b5563; color: white; width: 100%; padding: 16px; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; }
+    
+    /* ปุ่มตรวจสอบรายชื่อ */
+    .btn-check-name { display: block; width: 100%; background: white; color: var(--primary-red); border: 2px solid var(--primary-red); padding: 14px; border-radius: 10px; font-size: 18px; font-weight: 600; text-align: center; text-decoration: none; margin-top: 12px; transition: 0.3s; }
+    .btn-check-name:hover { background: var(--primary-red); color: white; }
 
     #loaderOverlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; color: white; flex-direction: column; }
     
@@ -110,7 +114,7 @@
           <label class="form-label">2. รหัสนักศึกษา / รหัสประจำตัว</label>
           <!-- เมื่อพิมพ์แก้รหัส จะล้างกรอบสีแดงและการแจ้งเตือนออกอัตโนมัติ -->
           <input type="text" id="studentId" class="form-control" placeholder="กรอกรหัสประจำตัว (เช่น 69xxxxxxxx)" required oninput="clearIdError()">
-          <!-- กล่องแจ้งเตือนรหัสซ้ำ ปรับขนาดพอดี สวยงาม -->
+          <!-- กล่องแจ้งเตือนรหัสซ้ำ -->
           <div id="idErrorText" class="error-box">
             <i class="fa-solid fa-circle-exclamation me-1"></i> <span></span>
           </div>
@@ -220,9 +224,17 @@
         </div>
       </div>
     </div>
+    
+    <!-- ส่วนปุ่มกดล่างใบเสร็จ -->
     <div class="p-3" style="background: #f8f9fa;">
       <button type="button" class="btn-download" onclick="downloadReceipt()"><i class="fa-solid fa-download me-2"></i> บันทึกใบเสร็จ</button>
+      
+      <!-- เพิ่มปุ่มตรวจสอบรายชื่อตรงนี้ -->
+      <a href="https://shorturl.asia/5lTUJ" target="_blank" class="btn-check-name">
+        <i class="fa-solid fa-list-check me-2"></i> ตรวจสอบรายชื่อ
+      </a>
     </div>
+    
   </div>
 
 <script>
@@ -230,7 +242,7 @@
   var QR_250_URL = 'https://cdn.phototourl.com/free/2026-07-21-a4499482-e820-4ebb-a06e-085dd867eb0a.jpg'; 
   var QR_280_URL = 'https://cdn.phototourl.com/free/2026-07-21-8bd99643-8eb6-440d-b22b-81488894e522.jpg';
 
-  var END_DATE = new Date(2026, 6, 2, 23, 59, 59);
+  var END_DATE = new Date(2026, 7, 3, 23, 59, 59);
 
   if (new Date() > END_DATE) {
     showClosedUI();
@@ -302,7 +314,7 @@
         document.getElementById('loaderOverlay').style.display = 'none';
         
         // เช็กสถานะถ้ารหัสซ้ำ ให้แสดงใต้ช่องรหัสนักศึกษา
-        if (data.message === "รหัสนักศึกษานี้ได้ทำการจองไปแล้ว") {
+        if (data.message === "รหัสนักศึกษานี้ทำการจองไปแล้ว") {
           var idInput = document.getElementById('studentId');
           var errorText = document.getElementById('idErrorText');
           idInput.classList.add('input-error');
