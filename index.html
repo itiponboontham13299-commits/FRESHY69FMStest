@@ -279,7 +279,8 @@
         
         document.getElementById('receiptSection').style.display = 'block';
       } else {
-        alert("เกิดข้อผิดพลาด: " + data.message);
+        // อัปเดตให้แสดงข้อความที่แจ้งจากระบบตรงๆ ไม่มีคำว่า "เกิดข้อผิดพลาด:" นำหน้า
+        alert(data.message);
         document.getElementById('loaderOverlay').style.display = 'none';
       }
     })
